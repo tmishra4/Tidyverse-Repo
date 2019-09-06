@@ -1,0 +1,92 @@
+---
+title: "Visualization with ggplot2"
+author: "Tapas Mishra"
+date: "05/09/2019"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+ggplot2 is an R package for producing statistical, or data, graphics, but it is unlike most other graphics packages because it has a deep underlying grammar.
+
+ggplot comes from the 'grammer of graphics' i.e 'gg'. The idea behind this you create a grapgh piece by piece, something like layer on top of another layer. This makes ggplot2 very powerful because you are not limited to a set of pre-specified graphics, but you can create new graphics that are precisely tailored for your problem.
+
+All the plots are composed of 
+
+1. Layers
+2. Scales
+3. Coordinate System (coord)
+4. Facet
+5. Themes
+
+![an image caption Source: Ultimate Funny Dog Videos Compilation 2013.](E:\Projects\Tidyverse Repo\images\first_layer.jpg)
+
+![an image caption Source: Ultimate Funny Dog Videos Compilation 2013.](E:\Projects\Tidyverse Repo\images\second_layer.png)
+
+![an image caption Source: Ultimate Funny Dog Videos Compilation 2013.](E:\Projects\Tidyverse Repo\images\third_layer.jpg)
+
+
+![an image caption Source: Ultimate Funny Dog Videos Compilation 2013.](E:\Projects\Tidyverse Repo\images\fourth_layer.jpg)
+
+
+![an image caption Source: Ultimate Funny Dog Videos Compilation 2013.](E:\Projects\Tidyverse Repo\images\fifth_layer.jpg)
+
+Let's begin the Action .........
+
+The first chunk in an R Notebook is usually titled "setup," and by convention includes the R packages you want to load. Remember, in order to use an R package you have to run some `library()` code every session. Execute these lines of code to load the packages. 
+
+```{r echo=FALSE}
+library(tidyverse)
+
+```
+
+Lets begin with a data, I took a Heart disease sample data. The first 13 variables are various health parameters of participants , suggesting they can used as explanatory variables , which can used to predict Heart disease in a patient.
+
+```{r cars}
+heart.data <- read.csv("https://archive.ics.uci.edu/ml/machine-learning-databases/heart-disease/processed.cleveland.data",header=FALSE,sep=",",na.strings = '?')
+names(heart.data) <- c( "age", "sex", "cp", "trestbps", "chol","fbs", "restecg",
+                   "thalach","exang", "oldpeak","slope", "ca", "thal", "target")
+
+#Removing few missing values
+heart.data <- na.omit(heart.data)
+
+# Lets check the dimensions of dataframe
+dim(heart.data)
+
+```
+
+Now, lets check the structure or datatypes of this sample
+
+```{r}
+str(heart.data)
+
+```
+
+Now , we are ready to explore this data. Let's check some rows
+
+```{r}
+head(heart.data)
+```
+
+
+Sometimes, people prefer to see their data in a more spreadsheet-like format, and RStudio provides a way to do that. Go to the Console and type `View(heart.data)` to see the data preview.
+
+(An aside-- `View` is a special function. Since it makes something happen in the RStudio interface, it doesn't work properly in R Notebooks. Most R functions have names that start with lowercase letters, so the uppercase "V" is there to remind you of its special status.)
+
+## Consider
+What relationship do you expect to see between Age and Cholestrol(chol)?
+
+```{r fig.width=8 , fig.height=3}
+ggplot(data=heart.data )  +
+  geom_point(mapping = aes(x = age , y = chol))
+```
+
+Remember , '+' indicates you keep on adding layers , This sign should always be end of line.
+
+## Remember this template - Made of 3 layers - Data, GEOM and Aesthetics
+ggplot(data = <DATA>) +
+<GEOM_FUNCTION>(mapping = aes(<MAPPINGS>))
+
