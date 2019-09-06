@@ -137,7 +137,7 @@ in the RStudio interface, it doesn’t work properly in R Notebooks. Most
 R functions have names that start with lowercase letters, so the
 uppercase “V” is there to remind you of its special status.)
 
-## Consider
+### Consider
 
 What relationship do you expect to see between Age and Cholestrol(chol)?
 
@@ -149,8 +149,58 @@ ggplot(data=heart.data )  +
 ![](Visualization_with_ggplot2_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
 Remember , ‘+’ indicates you keep on adding layers , This sign should
-always be end of line.
+always be end of
+line.
 
-## Remember this template - Made of 3 layers - Data, GEOM and Aesthetics
+### Remember this template - Made of 3 layers - Data, GEOM and Aesthetics
 
 ggplot(data = <DATA>) + <GEOM_FUNCTION>(mapping = aes(<MAPPINGS>))
+
+## 1\. Aesthetics
+
+aesthetic means “something you can see”. Each aesthetic is a mapping
+between a visual cue and a variable. Examples include:
+
+1.  position (i.e., on the x and y axes)
+2.  color (“outside” color)
+3.  fill (“inside” color)
+4.  shape (of points)
+5.  line type
+6.  size
+
+Each type of geom accepts only a subset of all aesthetics—refer to the
+geom help pages to see what mappings each geom accepts.
+
+``` r
+ggplot(data= heart.data)+
+  geom_point(mapping = aes(x = age , y = chol, color = target))
+```
+
+![](Visualization_with_ggplot2_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+
+You see the colors as gradient , because target is numeric data type by
+default. Let us change to factor , inorder to categories this as type of
+heart disease.
+
+``` r
+heart.data$target <- factor(heart.data$target,
+                    levels = c(0,1,2,3,4),
+                    labels = c("No Disease","Severity 1", "Severity 2","Severity 3","Severity 4"))
+
+ggplot(data= heart.data)+
+  geom_point(mapping = aes(x = age , y = chol, color = target))
+```
+
+![](Visualization_with_ggplot2_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+
+Now, the plot has given a distinct color to each level of target
+variable.
+
+``` r
+ggplot(data= heart.data)+
+  geom_point(mapping = aes(x = age , y = chol, color = target))+
+ geom_vline(xintercept = mean(heart.data$age))+
+  geom_hline(yintercept = mean(heart.data$chol))
+```
+
+![](Visualization_with_ggplot2_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
